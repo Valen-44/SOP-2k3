@@ -1,0 +1,47 @@
+#!/bin/bash
+
+clear
+
+while true
+do
+	echo MENU DE OPCIONES
+	echo 0. Salir
+	echo 1. Guardar la memoria disponible y libre en un archivo
+	echo 2. Ejecutar vmstat y guardar su salida en un archivo
+	echo 3. Ejecutar free y vmstat de forma intercalada n veces.
+	echo Ingrese una opcion: 
+	read opcion
+	echo
+	
+	case $opcion in
+		0)
+		break;;
+	
+		1)
+		echo MEMORIA RAM LIBRE: > mem_libre_disponible.txt	
+		free -m | tr -s ' ' | cut -d" " -f4 | head -2 | tail -1 >> mem_libre_disponible.txt
+		echo MEMORIA RAM DISPONIBLE: >> mem_libre_disponible.txt	
+		free -m | tr -s ' ' | cut -d" " -f7 | head -2 | tail -1 >> mem_libre_disponible.txt
+		echo MEMORIA SWAP LIBRE: >> mem_libre_disponible.txt	
+		free -m | tr -s ' ' | cut -d" " -f4 | tail -1 >> mem_libre_disponible.txt
+		
+		echo Se guardo exitosamente el archivo mem_libre_disponible.txt
+		echo;;
+		
+		2)
+		vmstat > vmstat.txt
+		echo Se guardo exitosamente el archivo vmstat.txt
+		echo;;
+		
+		3)
+		read -p "Ingrese el numero de iteraciones: " iteraciones
+		
+		for i in $(seq $iteraciones)
+		do
+			free -m > iteraciones.txt
+			echo >> iteraciones.txt
+			vmstat >> iteraciones.txt
+			echo >> iteraciones.txt;;
+		done
+	esac
+done

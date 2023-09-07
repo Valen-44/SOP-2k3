@@ -1,0 +1,70 @@
+#!/bin/bash
+clear
+
+while true
+do
+	echo
+	echo ---------------------------------------------------------------------------------------------
+	echo MENU DE OPCIONES
+	echo 1. Solicitar un directorio y mostrar los archivos regulares en el mismo
+	echo 2. Solicitar un archivo y mostra el propietario del mismo
+	echo 3. Solicitar un directorio y mostrar la cantidad de archivos especiales de bloque y archivos especiles de caracter
+	echo 4. Solicitar un archivo y una ruta y mueva el archivo a dicha ruta elegida
+	echo 5. Salir
+	echo ---------------------------------------------------------------------------------------------
+	read -p "Ingrese una opcion: " opcion
+	echo 
+
+	case $opcion in
+	5)
+		break;;
+	1)
+		read -p "Ingrese la ruta a un directorio: " dir1
+		echo
+		if test -d $dir1
+		then
+			echo Los archivos regulares encontrados en ese directorio son:
+			ls -l $dir1 | tr -s " " | grep "^-" | cut -d " " -f9
+		else
+			echo ERROR. El directorio ingresado no existe
+		fi;;
+	2)
+		read -p "Ingrese la ruta a un archivo: " arch
+		echo
+		if test -f $arch
+		then
+			owner=$(ls -l $arch | tr -s " " | cut -d " " -f3)
+			echo "El dueño del archivo es:" $owner
+		else
+			echo ERROR. La ruta ingresada no corresponde a un archivo
+		fi;;
+	3)
+		read -p "Ingrese la ruta a un directorio: " dir2
+		echo
+		if test -d $dir2
+		then
+			cant=$(ls -l $dir2 | cut -c 1 | grep -E "c|b" -c)
+			echo La cantidad de archivos especiales de bloque y de caracter es: $cant
+		else
+			echo ERROR. La ruta ingresada no corresponde a un directorio existente
+		fi;;
+	4)
+		read -p "Ingrese la ruta al archivo: " arch2
+		read -p "Ingrese la ruta al directorio de destino: " dir3
+		echo
+		if test -f $arch2
+		then
+			if test -d $dir3
+			then
+				mv $arch2 $dir3
+				echo El archivo se movio exitosamente.
+			else
+				echo ERROR. La ruta ingresada no corresponde a un directorio existente
+			fi
+		else
+			echo ERROR. La ruta ingresada no corresponde a un archivo
+		fi;;
+	esac
+done
+	
+	

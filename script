@@ -1,0 +1,87 @@
+#!/bin/bash
+clear
+while true
+do	
+	echo 
+	echo MENU:
+	echo 1. Salir
+	echo 2. Dias de la semana
+	echo 3. Num menores o iguales a 15
+	echo 4. Igualdad de cadenas
+	echo 5. Archivo especial de caracter
+	echo
+	echo Seleccione una opcion:
+	read opcion
+	echo 
+
+	case $opcion in
+		1)
+			break;;
+			
+		2)
+			echo Ingrese un numero correspondiente a un dìa de la semana:
+			read dia
+			
+			if test $dia -eq 0
+			then
+				echo Ese numero corresponde al Domingo
+			elif test $dia -eq 1
+			then
+				echo Ese numero corresponde al Lunes
+			elif test $dia -eq 2
+			then
+				echo Ese numero corresponde al Martes
+			elif test $dia -eq 3
+			then
+				echo Ese numero corresponde al Miercoles
+			elif test $dia -eq 4
+			then
+				echo Ese numero corresponde al Jueves
+			elif test $dia -eq 5
+			then
+				echo Ese numero corresponde al Viernes
+			elif test $dia -eq 6
+			then
+				echo Ese numero corresponde al Sabado
+			elif test $dia -ge 7
+			then
+				echo Ese numero corresponde al Domingo
+			fi;;
+			
+		3)
+			echo Ingrese un numero
+			read num
+			
+			until test $num -gt 15
+			do
+				echo El numero es menor o igual a 15, ingrese otro
+				read num
+			done;;
+			
+		4)
+			echo Ingrese la primera cadena:
+			read cadena1
+			echo Ingrese la segunda cadena:
+			read cadena2
+			
+			if test $cadena1 = $cadena2
+			then
+				echo Las cadenas son iguales
+			else
+				echo Las cadenas no son iguales
+			fi;;
+		
+		5)
+			echo Ingrese la ruta absoluta de un archivo
+			read dir
+			
+			if test -c $dir
+			then
+				echo El archivo es de tipo caracter
+			else
+				echo El archivo no es de tipo caracter
+			fi;;
+		
+	esac
+
+done
